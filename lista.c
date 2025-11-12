@@ -38,8 +38,7 @@ void agregarFinal (ListaPtr lista, int edad, char *nombre){
 
 void agregarEnPosicion (ListaPtr lista, int edad, char *nombre, int pos){
     if (pos > lista->tam){ return; }
-    NodoPtr nuevoNodo = crearNodo(edad, nombre,NULL);
-    NodoPtr actual = lista->inicio;
+
     if (pos == 0 ){
         agregarInicio(lista, edad, nombre);
         return;
@@ -48,11 +47,15 @@ void agregarEnPosicion (ListaPtr lista, int edad, char *nombre, int pos){
         agregarFinal(lista, edad,nombre);
         return;
     }
+
+    NodoPtr actual = lista->inicio;
     int contador = 0;
     while (contador < pos - 1){
         contador ++;
         actual = actual->sig;
     }
+
+    NodoPtr nuevoNodo = crearNodo(edad, nombre,NULL);
     nuevoNodo->sig = actual->sig;
     actual->sig = nuevoNodo;
     lista->tam++;
@@ -73,9 +76,8 @@ void liberarLista (ListaPtr lista){
     NodoPtr actual = lista->inicio;
     NodoPtr siguiente;
     while (actual != NULL){
-        NodoPtr aux = actual;
         siguiente = actual->sig;
-        free (actual);
+        liberarNodo(actual);
         actual = siguiente;
     }
 }
@@ -104,6 +106,7 @@ void eliminarNodo (ListaPtr lista, int pos){
 
     free (actual->nombre);
     free (actual);
+    lista->tam--;
 }
 
 int busquedaEdad (ListaPtr lista, int busco){

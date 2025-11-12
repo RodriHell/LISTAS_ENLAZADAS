@@ -18,6 +18,9 @@ int main()
 
     int* vector = crearVectorEdad(lista);
 
+    liberarLista(lista);
+
+    free (vector);
 
     return 0;
 }
